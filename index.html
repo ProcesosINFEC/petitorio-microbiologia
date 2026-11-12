@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Petición asistida de Microbiología</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,9 +142,49 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 .dlg-b ul{margin:0;padding-left:20px}
 .dlg-f{padding:12px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--grey-open)}
 .empty{color:var(--text-muted);padding:14px var(--pad);font-size:14px}
+/* ---- Barra de pestañas (solo móvil) ---- */
+.tabbar{display:none}
+
+/* ---- Móvil: hasta 800 px de ancho, o móvil apaisado ---- */
+@media (max-width:800px), (pointer:coarse) and (max-height:500px){
+  body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
+  .hce{display:none}
+  .titlebar{flex:none;height:auto;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px}
+  .titlebar h1{font-size:16px}
+  .guide{font-size:12px;padding:2px 0;gap:6px}
+  .guide svg{width:14px;height:14px}
+  .main{flex:1;min-height:0;height:auto;display:block;padding:0}
+  .panel,.cart{height:100%;border-radius:0}
+  body[data-view="elegir"] .cart{display:none}
+  body[data-view="peticion"] .panel{display:none}
+  .panel-title{display:none}
+  .panel-head{padding:8px}
+  .search input{height:36px;font-size:16px}
+  .seg{height:36px}
+  .seg button{padding:0 10px;font-size:12px}
+  .panel-body{padding:0 8px 8px}
+  .cat-head{font-size:16px}
+  .grp,.syn,.mu{font-size:15px}
+  .crit-head{font-size:14px}
+  .syn-content,.mu-content{padding:6px 10px 10px}
+  .crit-chips{padding:2px 8px 6px}
+  .chip{grid-template-columns:1fr;min-height:0;font-size:13.5px}
+  .chip-m{margin:1px 1px 0;border-radius:3px 3px 0 0;padding:6px 10px 4px;font-weight:600;font-size:13px;color:#333}
+  .chip-p{padding:6px 12px 10px}
+  .cart-head{padding:12px 14px 4px}
+  .cart-body{padding:4px 14px 8px}
+  .cart-foot{padding:10px 14px 14px}
+  .cart-foot .btn{width:100%}
+  .tabbar{flex:none;display:grid;grid-template-columns:1fr 1fr;background:#fff;border-top:1px solid var(--grey-open);padding-bottom:env(safe-area-inset-bottom)}
+  .tabbtn{position:relative;height:60px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;color:#555}
+  .tabbtn[aria-current="true"]{color:var(--teal-dark);font-weight:600;box-shadow:inset 0 3px 0 var(--teal-dark)}
+  .tabbtn:focus-visible{outline-color:#005F5A;outline-offset:-4px}
+  .badge{position:absolute;top:7px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--teal-dark);color:#fff;font-size:11px;font-weight:600;display:grid;place-content:center}
+  .badge[hidden]{display:none}
+}
 </style>
 </head>
-<body>
+<body data-view="elegir">
 
 <header class="hce" aria-label="Barra simulada de la historia clínica">
   <div class="hce-brand">HCE</div>
@@ -189,6 +229,18 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
     </div>
   </aside>
 </main>
+
+<nav class="tabbar" aria-label="Vistas">
+  <button type="button" class="tabbtn" data-view="elegir" aria-current="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+    <span>Elegir pruebas</span>
+  </button>
+  <button type="button" class="tabbtn" data-view="peticion" aria-current="false">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l1 2h3v14H5V6h3z"/><path d="M9 13l2 2 4-4"/></svg>
+    <span>Petición</span>
+    <span class="badge" id="badge" hidden>0</span>
+  </button>
+</nav>
 
 <dialog id="dlg" aria-labelledby="dlg-t">
   <div class="dlg-h" id="dlg-t">Petición enviada (simulación)</div>
@@ -353,6 +405,7 @@ function renderCart(){
   document.getElementById('count').textContent = n ? '· ' + n + (n === 1 ? ' prueba' : ' pruebas') : '';
   document.getElementById('clear').disabled = !n;
   document.getElementById('send').disabled = !n;
+  const badge = document.getElementById('badge'); badge.textContent = n; badge.hidden = !n;
   if (!n) { el.innerHTML = '<div class="cart-empty">Todavía no hay pruebas en la petición.<br>Elige un síndrome o una muestra y pulsa las pruebas.</div>'; return; }
   let html = '';
   state.cart.forEach((l, k) => {
@@ -421,6 +474,15 @@ document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click'
   state.tipo = b.dataset.tipo; state.openGroup = null; state.selSyn = null; state.selMuestra = null;
   document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
   render();
+}));
+/* ---------- Pestañas inferiores (móvil) ---------- */
+let savedScroll = 0;
+document.querySelectorAll('.tabbtn').forEach(b => b.addEventListener('click', () => {
+  const va = document.getElementById('view-asistida'), next = b.dataset.view;
+  if (document.body.dataset.view === 'elegir' && next !== 'elegir') savedScroll = va.scrollTop;
+  document.body.dataset.view = next;
+  document.querySelectorAll('.tabbtn').forEach(x => x.setAttribute('aria-current', x === b ? 'true' : 'false'));
+  if (next === 'elegir') va.scrollTop = savedScroll;
 }));
 /* ---------- Enviar ---------- */
 const dlg = document.getElementById('dlg');

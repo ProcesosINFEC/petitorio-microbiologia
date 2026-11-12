@@ -26,17 +26,17 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #FFC8
 .hce{background:var(--teal-dark);color:#fff;height:52px;display:flex;align-items:center;padding:0 45px;gap:40px;font-size:12px;font-weight:600}
 .hce-brand{font-size:18px;font-weight:700;letter-spacing:.5px;background:#fff;color:var(--teal-dark);padding:4px 10px;border-radius:var(--radius)}
 .hce-field span{font-weight:400;opacity:.9;margin-left:6px}
-.hce-tools{height:44px;background:#fff;border-bottom:1px solid var(--grey-open);display:flex;align-items:center;padding:0 45px;font-size:12px;color:var(--teal-dark)}
 
 /* ---- Barra de título ---- */
-.titlebar{background:var(--teal-dark);color:#fff;height:var(--row);display:flex;align-items:center;justify-content:space-between;padding:0 45px}
+.titlebar{background:#fff;color:#000;height:var(--row);display:flex;align-items:center;justify-content:space-between;padding:0 45px;border-bottom:1px solid var(--grey-header)}
 .titlebar h1{margin:0;font-size:20px;font-weight:700}
-.guide{color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:400;border-radius:var(--radius);padding:4px 6px}
+.guide:focus-visible{outline-color:#005F5A}
+.guide{color:#555;text-decoration:none;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:400;border-radius:var(--radius);padding:4px 6px}
 .guide b{font-weight:600}
 .guide:hover{text-decoration:underline}
 
 /* ---- Maqueta ---- */
-.main{display:grid;grid-template-columns:1fr 1fr;gap:44px;padding:28px 45px 24px;height:calc(100vh - 52px - 44px - 47px);min-height:640px}
+.main{display:grid;grid-template-columns:1fr 1fr;gap:44px;padding:28px 45px 24px;height:calc(100vh - 52px - 47px);min-height:640px}
 .panel{display:flex;flex-direction:column;min-height:0;background:var(--teal-primary);border-radius:var(--radius);overflow:hidden}
 .panel-title{flex:none;margin:0;height:var(--row);display:flex;align-items:center;justify-content:center;background:var(--teal-primary);color:#fff;font-weight:600;font-size:18px;border-radius:var(--radius) var(--radius) 0 0}
 .panel-head{flex:none;padding:8px 8px;display:flex;gap:8px;align-items:center}
@@ -153,13 +153,11 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
   <div class="hce-field">Edad:<span></span></div>
   <div class="hce-field">Sexo:<span></span></div>
 </header>
-<div class="hce-tools">Mostrar modo clásico</div>
-
 <div class="titlebar">
   <h1>Petición Microbiología</h1>
   <a class="guide" href="https://guiaantibioticosproahcuz.com/" target="_blank" rel="noopener">
     <span>Según la <b>guía del HCUZ</b></span>
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#005F5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
   </a>
 </div>
 

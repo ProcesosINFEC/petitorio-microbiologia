@@ -85,8 +85,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #FFC8
 button.chip{transition:box-shadow var(--t),border-color var(--t)}
 button.chip:hover{border-color:var(--teal-dark)}
 button.chip[aria-pressed="true"]{border-color:var(--teal-selected);box-shadow:inset 0 0 0 1px var(--teal-selected)}
-button.chip[aria-pressed="true"] .chip-p{padding-right:30px}
-button.chip[aria-pressed="true"] .chip-p::after{content:"✓";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--teal-selected);font-weight:600}
+button.chip .chip-p{padding-right:44px}
+button.chip .chip-p::after{content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;box-sizing:border-box;border-radius:3px;border:2px solid #666;background:#fff center/13px no-repeat;transition:background-color var(--t),border-color var(--t)}
+button.chip[aria-pressed="true"] .chip-p::after{border-color:var(--teal-selected);background-color:var(--teal-selected);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E")}
 
 /* ---- Criterio: sección plegable ---- */
 .crit{margin:10px 0 0;border:1px solid var(--grey-open);border-radius:var(--radius);overflow:hidden}
